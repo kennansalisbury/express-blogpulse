@@ -7,20 +7,24 @@
 <p><%= article.content %></p>
 
 
-<!-- <p>
+<p>
   <a class="btn btn-primary" data-toggle="collapse" href="#commentform" role="button" aria-expanded="false" aria-controls="commentform">Leave a Comment</a>
-</p> -->
-<p><strong>Leave a Comment</strong></p>
-<form method="POST" action="/articles/comments">
-  <textarea name="content" id="content"></textarea>
-  
-  <label for="name">Name:</label>
-  <input name="name" type="text">
+</p>
 
-  <input name="articleId" type="hidden" value="<%= article.id %>">
+<div class="collapse" id="commentform">
 
-  <input type="submit">
-</form>
+  <form method="POST" action="/articles/comments">
+    <textarea class="form-control" rows="3" name="content" id="content"></textarea>
+    <br/>
+    <label for="name">Name:</label>
+    <input name="name" type="text" class="form-control" placeholder="name">
+    <br/>
+    <input name="articleId" type="hidden" value="<%= article.id %>">
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+</div>
 <br/>
 
 
