@@ -6,6 +6,39 @@
 
 <p><%= article.content %></p>
 
+
+<!-- <p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#commentform" role="button" aria-expanded="false" aria-controls="commentform">Leave a Comment</a>
+</p> -->
+<p><strong>Leave a Comment</strong></p>
+<form method="POST" action="/articles/comments">
+  <textarea name="content" id="content"></textarea>
+  
+  <label for="name">Name:</label>
+  <input name="name" type="text">
+
+  <input name="articleId" type="hidden" value="<%= article.id %>">
+
+  <input type="submit">
+</form>
+<br/>
+
+
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">See All Comments</a>
+</p>
+<div class="collapse" id="comments">
+ 
+<% article.comments.forEach(comment => {%>
+ <div class="card">
+    <div class="card-body">
+      <strong><%= comment.name %></strong> <i>(<%= moment().from(comment.createdAt, true)%> ago)</i>: <%= comment.content %>
+    </div>
+  </div>
+<%})%>
+
+</div>
+
 <hr />
 
 <a href="/">&larr; Back Home</a>

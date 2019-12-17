@@ -4,7 +4,6 @@ var db = require('./models')
 var moment = require('moment')
 var rowdy = require('rowdy-logger')
 var app = express()
-
 rowdy.begin(app)
 
 app.set('view engine', 'ejs')
