@@ -1,0 +1,26 @@
+<h1>Edit Post</h1>
+
+<a href="/articles/<%=article.id%>">&larr; Back</a>
+
+<h2>Not <%=article.author.getFullName() %>? <a href="/authors">Click here</a></h2>
+
+
+<form action="/articles/edit" method="POST">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" name="title" required value="<%= article.title %>">
+    </div>
+  
+    <div class="form-group">
+      <label for="content">Content</label>
+      <textarea type="text" class="form-control" id="content" name="content" required><%= article.content %></textarea>
+    </div>
+
+    <input type="hidden" value="<%= article.id%>" name="id">
+  
+    <input type="submit" class="btn btn-primary">
+  </form>
+
+  <br/>
+
+  <a href="/articles/<%=article.id%>">&larr; Back</a>

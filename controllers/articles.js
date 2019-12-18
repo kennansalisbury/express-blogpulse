@@ -59,4 +59,30 @@ router.post('/comments', (req, res) => {
 
 })
 
+//GET articles/edit - display form to edit articles, pre-populate existing article information
+router.get('/:id/edit', (req, res) => {
+  db.article.findOne({
+    where: { id: req.params.id },
+    include: [db.author]
+  })
+  .then(article => {
+    // res.send(article)
+    res.render('articles/edit', {article})
+  })
+})
+
+//POST articles/edit - post updated article information
+router.post('/edit', (req, res) => {
+  db.article.update({
+    title: req.body.title,
+    content: req.body.content
+  }, {
+    where: {
+      id: req.body.id
+    }
+  }).then(article => {
+    res.redirect('/articles/'+ req.body.id)
+  })
+})
+
 module.exports = router

@@ -1,11 +1,85 @@
 <h1><%= article.title %> <small>by <%= article.author.getFullName() %></small></h1>
+<!-- <%//console.log(article.createdAt, article.updatedAt, article.createdAt !== article.updatedAt)%> -->
 
+<p><strong>Created <%= moment(article.createdAt).calendar() %></strong></p>
+<p>Updated <%= moment(article.updatedAt).calendar() %></p>
+
+<div class="panel panel-default">
+<div class="panel-body">
+  <p><%= article.content %></p>
+</div>
+
+</div>
 <p>
-  <strong><%= moment(article.createdAt).calendar() %></strong>
-</p>
+  <a href="/articles/<%= article.id %>/edit">Edit Article</a>
+</p> 
 
-<p><%= article.content %></p>
+<hr />
 
+<h2>Comments</h2>
+<% if(!article.comments.length || article.comments.length === 0) { %>
+
+  <p>Nobody has left a comment yet... be the first below!</p>
+
+<%} else if(article.comments.length === 1) { %>
+  
+  <div class="well">
+    <div>
+      <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
+    </div>
+  </div>
+
+<% } else if (article.comments.length === 2) { %>
+
+  <div class="well">
+    <div>
+      <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
+    </div>
+  </div>
+
+  <div class="well">
+    <div>
+      <strong><%= article.comments[article.comments.length - 2].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 2].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 2].content %>
+    </div>
+  </div>
+
+<% } else { %>
+
+  <p>
+    <a id="see-comments-link" data-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">See All Comments</a>
+  </p>
+
+  <div class="well">
+    <div>
+      <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
+    </div>
+  </div>
+  
+  <div class="well">
+    <div>
+      <strong><%= article.comments[article.comments.length - 2].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 2].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 2].content %>
+    </div>
+  </div>
+  
+  <div class="collapse" id="comments">
+
+    <% for(let i = article.comments.length - 3; i >= 0; i--) {%>
+  
+      <div class="well">
+        <div>
+          <strong><%= article.comments[i].name %></strong> <i>(<%= moment().from(article.comments[i].createdAt, true)%> ago)</i>: <%= article.comments[i].content %>
+        </div>
+      </div>
+    <%}%>
+  
+  </div>
+  
+
+<% } %>
+
+<br/>
+
+<!-- ADD COMMENT FORM -->
 
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#commentform" role="button" aria-expanded="false" aria-controls="commentform">Leave a Comment</a>
@@ -14,10 +88,10 @@
 <div class="collapse" id="commentform">
 
   <form method="POST" action="/articles/comments">
-    <textarea class="form-control" rows="3" name="content" id="content"></textarea>
+    <textarea class="form-control" rows="3" name="content" id="content" placeholder="Tell us what you think!"></textarea>
     <br/>
     <label for="name">Name:</label>
-    <input name="name" type="text" class="form-control" placeholder="name">
+    <input name="name" type="text" class="form-control" placeholder="Name or Username">
     <br/>
     <input name="articleId" type="hidden" value="<%= article.id %>">
     
@@ -25,24 +99,8 @@
   </form>
 
 </div>
+
 <br/>
-
-
-<p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#comments" role="button" aria-expanded="false" aria-controls="comments">See All Comments</a>
-</p>
-<div class="collapse" id="comments">
- 
-<% article.comments.forEach(comment => {%>
- <div class="card">
-    <div class="card-body">
-      <strong><%= comment.name %></strong> <i>(<%= moment().from(comment.createdAt, true)%> ago)</i>: <%= comment.content %>
-    </div>
-  </div>
-<%})%>
-
-</div>
-
-<hr />
-
 <a href="/">&larr; Back Home</a>
+
+

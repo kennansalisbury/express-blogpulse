@@ -13,7 +13,7 @@
         <option value="<%= author.id %>"><%= author.getFullName() %></option>
       <% }) %>
     </select>
-    <p>If your name doesn't show up, please <a href="/authors/new">sign up to be an author.</a></p>
+    <p>If your name doesn't show up, please <a data-toggle="modal" data-target="#newauthorform">sign up to be an author.</a></p>
   </div>
 
   <div class="form-group">
@@ -23,3 +23,37 @@
 
   <input type="submit" class="btn btn-primary">
 </form>
+
+
+<div class="modal fade" id="newauthorform" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Sign up for BlogPulse</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/authors" method="POST">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" required>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" required>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea type="text" class="form-control" id="bio" name="bio" required></textarea>
+          </div>
+
+          <input type="submit" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

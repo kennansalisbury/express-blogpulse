@@ -22,7 +22,10 @@ app.use(function(req, res, next) {
 // GET / - display all articles and their authors
 app.get('/', function(req, res) {
   db.article.findAll({
-    include: [db.author]
+    include: [db.author],
+    order: [
+      ['createdAt', 'DESC']
+    ]
   }).then(function(articles) {
     res.render('main/index', { articles: articles })
   }).catch(function(error) {
