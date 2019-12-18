@@ -1,32 +1,38 @@
-<h1><%= article.title %> <small>by <%= article.author.getFullName() %></small></h1>
+<h1><%= article.title %></h1>
 <!-- <%//console.log(article.createdAt, article.updatedAt, article.createdAt !== article.updatedAt)%> -->
 
 <p><strong>Created <%= moment(article.createdAt).calendar() %></strong></p>
-<p>Updated <%= moment(article.updatedAt).calendar() %></p>
+<p><strong>by <%= article.author.getFullName() %></strong></p>
 
 <div class="panel panel-default">
 <div class="panel-body">
   <p><%= article.content %></p>
 </div>
-
 </div>
+<p><small>Last Updated <%= moment(article.updatedAt).calendar() %></small></p>
+
 <p>
   <a href="/articles/<%= article.id %>/edit">Edit Article</a>
 </p> 
 
 <hr />
 
-<h2>Comments</h2>
+<h4>Comments</h4>
 <% if(!article.comments.length || article.comments.length === 0) { %>
 
   <p>Nobody has left a comment yet... be the first below!</p>
 
 <%} else if(article.comments.length === 1) { %>
-  
+  <%console.log(article.comments)%>
   <div class="well">
     <div>
       <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
     </div>
+
+    <form action="/articles/comments/<%=article.comments[article.comments.length - 1].id%>/?_method=DELETE" method="POST">
+      <input type="hidden" name="articleId" value="<%=article.id%>">
+      <button class="btn btn-link" type="submit">REMOVE</button>
+    </form>
   </div>
 
 <% } else if (article.comments.length === 2) { %>
@@ -35,12 +41,20 @@
     <div>
       <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
     </div>
+    <form action="/articles/comments/<%=article.comments[article.comments.length - 1].id%>/?_method=DELETE" method="POST">
+      <input type="hidden" name="articleId" value="<%=article.id%>">
+      <button class="btn btn-link" type="submit">REMOVE</button>
+    </form>
   </div>
 
   <div class="well">
     <div>
       <strong><%= article.comments[article.comments.length - 2].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 2].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 2].content %>
     </div>
+    <form action="/articles/comments/<%=article.comments[article.comments.length - 2].id%>/?_method=DELETE" method="POST">
+      <input type="hidden" name="articleId" value="<%=article.id%>">
+      <button class="btn btn-link" type="submit">REMOVE</button>
+    </form>
   </div>
 
 <% } else { %>
@@ -53,12 +67,20 @@
     <div>
       <strong><%= article.comments[article.comments.length - 1].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 1].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 1].content %>
     </div>
+    <form action="/articles/comments/<%=article.comments[article.comments.length - 1].id%>/?_method=DELETE" method="POST">
+      <input type="hidden" name="articleId" value="<%=article.id%>">
+      <button class="btn btn-link" type="submit">REMOVE</button>
+    </form>
   </div>
   
   <div class="well">
     <div>
       <strong><%= article.comments[article.comments.length - 2].name %></strong> <i>(<%= moment().from(article.comments[article.comments.length - 2].createdAt, true)%> ago)</i>: <%= article.comments[article.comments.length - 2].content %>
     </div>
+    <form action="/articles/comments/<%=article.comments[article.comments.length - 2].id%>/?_method=DELETE" method="POST">
+      <input type="hidden" name="articleId" value="<%=article.id%>">
+      <button class="btn btn-link" type="submit">REMOVE</button>
+    </form>
   </div>
   
   <div class="collapse" id="comments">
@@ -69,6 +91,10 @@
         <div>
           <strong><%= article.comments[i].name %></strong> <i>(<%= moment().from(article.comments[i].createdAt, true)%> ago)</i>: <%= article.comments[i].content %>
         </div>
+        <form action="/articles/comments/<%=article.comments[i].id%>/?_method=DELETE" method="POST">
+          <input type="hidden" name="articleId" value="<%=article.id%>">
+          <button class="btn btn-link" type="submit">REMOVE</button>
+        </form>
       </div>
     <%}%>
   

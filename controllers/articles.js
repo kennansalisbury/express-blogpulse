@@ -85,4 +85,16 @@ router.post('/edit', (req, res) => {
   })
 })
 
+// DELTE Comments
+router.delete('/comments/:cid', (req, res) => {
+
+  db.comment.destroy({
+    where: {id: req.params.cid}
+  })
+  .then(comment => {
+    res.redirect('/articles/' + req.body.articleId)
+  })
+})
+
+
 module.exports = router
