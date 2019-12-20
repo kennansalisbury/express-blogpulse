@@ -1,0 +1,17 @@
+<h1>All Tags</h1>
+<div class="row">
+
+<%tags.forEach(tag => {%>
+ <div class="col-sm-3">
+    <div class="panel small">
+    <div class="panel-content">
+    <span class="panel-title"></span>
+        <a href="/tags/<%=tag.id%>"><%=tag.content%></a>
+    <p>This tag appears on articles: <%=tag.articles.map(a => a.title).join(', ')%></p>
+    </div>    
+    </div>
+ </div>
+
+<%})%>
+
+</div>

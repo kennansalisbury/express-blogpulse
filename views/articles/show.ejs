@@ -1,19 +1,20 @@
 <h1><%= article.title %></h1>
-<!-- <%//console.log(article.createdAt, article.updatedAt, article.createdAt !== article.updatedAt)%> -->
 
 <p><strong>Created <%= moment(article.createdAt).calendar() %></strong></p>
 <p><strong>by <%= article.author.getFullName() %></strong></p>
 
 <div class="panel panel-default">
-<div class="panel-body">
-  <p><%= article.content %></p>
+  <div class="panel-body">
+    <p><%= article.content %></p>
+    <%article.tags.forEach(t => {%>
+      <a href="/tags/<%=t.id%>">#<%=t.content%></a>&nbsp;
+    <%})%>
+  </div>
 </div>
-</div>
+
 <p><small>Last Updated <%= moment(article.updatedAt).calendar() %></small></p>
 
-<p>
-  <a href="/articles/<%= article.id %>/edit">Edit Article</a>
-</p> 
+<p><a href="/articles/<%= article.id %>/edit">Edit Article</a></p> 
 
 <hr />
 

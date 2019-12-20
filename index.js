@@ -39,6 +39,7 @@ app.get('/', function(req, res) {
 // bring in authors and articles controllers
 app.use('/authors', require('./controllers/authors'))
 app.use('/articles', require('./controllers/articles'))
+app.use('/tags', require('./controllers/tags'))
 
 var server = app.listen(process.env.PORT || 3000, function() {
   rowdy.print()

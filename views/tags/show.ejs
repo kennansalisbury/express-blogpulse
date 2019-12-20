@@ -1,0 +1,25 @@
+<h1><%=tag.content%></h1>
+
+<p><strong><%= moment(tag.createdAt).calendar() %></strong></p>
+
+<h2>Articles</h2>
+
+<div class="row">
+    <% tag.articles.forEach(a => { %>
+        <div class="col-sm-4">
+            <%= a.title %>    
+        </div>
+    <%})%>
+</div>
+
+<h2>Add this tag to Article</h2>
+
+<form method="POST" action="/tags/<%=tag.id%>/articles">
+    <%articles.forEach(article => { %>
+    <div>
+        <input type="checkbox" name="articles" value="<%=article.id%>"> 
+        <label><%= article.title %></label>
+    </div>
+    <% }) %>    
+    <input type="submit">
+</form>

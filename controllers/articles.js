@@ -1,16 +1,47 @@
+var async = require('async')
 var express = require('express')
 var db = require('../models')
 var router = express.Router()
+var generalError = require('../loggers/generalError')
 
 // POST /articles - create a new post
 router.post('/', function(req, res) {
+  let tags = []
+
+  //if there are tags, split at commas and add to tags array
+  if (req.body.tags) {
+    tags = req.body.tags.split(',')
+  }
+
+  //create new article
   db.article.create({
     title: req.body.title,
     content: req.body.content,
     authorId: req.body.authorId
   })
-  .then(function(post) {
-    res.redirect('/')
+  .then(article => {
+    if (tags.length) {
+    // Create new tags if tags array not empty
+      async.forEach(tags, (t, done) => {
+        db.tag.findOrCreate({
+          where: { content: t.trim()}
+        })
+        .then(([tag, wasCreated]) => {
+          //add to articles_tags tables
+          article.addTag(tag)
+          .then(() => {
+            done()
+          })
+          .catch(done)//end of adding to join table
+        })
+        .catch(done)//end of finding or creating tag
+      }, () => {
+        //executes once when everything is done
+        res.redirect('/articles/' + article.id)
+      })
+    } else {
+      res.redirect('/articles/' + article.id)
+    }  
   })
   .catch(function(error) {
     res.status(400).render('main/404')
@@ -32,13 +63,11 @@ router.get('/new', function(req, res) {
 router.get('/:id', function(req, res) {
   db.article.findOne({
     where: { id: req.params.id },
-    include: [db.author, db.comment]
+    include: [db.author, db.comment, db.tag]
   })
   .then(function(article) {
     if (!article) throw Error()
-    // console.log(article)
-    // res.send(article)
-    res.render('articles/show', { article: article })
+    res.render('articles/show', { article })
   })
   .catch(function(error) {
     console.log(error)
@@ -52,11 +81,7 @@ router.post('/comments', (req, res) => {
   .then(comment => {
     res.redirect('/articles/' + req.body.articleId)
   })
-  .catch(err => {
-    console.log(err)
-    res.send('error')
-})
-
+  .catch(generalError)
 })
 
 //GET articles/edit - display form to edit articles, pre-populate existing article information
@@ -69,6 +94,7 @@ router.get('/:id/edit', (req, res) => {
     // res.send(article)
     res.render('articles/edit', {article})
   })
+  .catch(generalError)
 })
 
 //POST articles/edit - post updated article information
@@ -83,6 +109,7 @@ router.post('/edit', (req, res) => {
   }).then(article => {
     res.redirect('/articles/'+ req.body.id)
   })
+  .catch(generalError)
 })
 
 // DELTE Comments
@@ -94,6 +121,7 @@ router.delete('/comments/:cid', (req, res) => {
   .then(comment => {
     res.redirect('/articles/' + req.body.articleId)
   })
+  .catch(generalError)
 })
 
 
