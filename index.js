@@ -41,7 +41,7 @@ app.use('/authors', require('./controllers/authors'))
 app.use('/articles', require('./controllers/articles'))
 app.use('/tags', require('./controllers/tags'))
 
-var server = app.listen(process.env.PORT || 3000, function() {
+var server = app.listen(process.env.PORT || 8000, function() {
   rowdy.print()
 })
 

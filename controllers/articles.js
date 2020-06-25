@@ -23,6 +23,7 @@ router.post('/', function(req, res) {
     if (tags.length) {
     // Create new tags if tags array not empty
       async.forEach(tags, (t, done) => {
+        console.log(t, '🎯🎯🎯🎯')
         db.tag.findOrCreate({
           where: { content: t.trim()}
         })
@@ -107,6 +108,7 @@ router.post('/edit', (req, res) => {
       id: req.body.id
     }
   }).then(article => {
+    console.log(article + '🌷🌷🌷🌷🌷')
     res.redirect('/articles/'+ req.body.id)
   })
   .catch(generalError)

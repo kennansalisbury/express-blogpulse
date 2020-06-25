@@ -43,6 +43,7 @@ router.post('/:id/articles', (req, res) => {
     db.tag.findByPk(req.params.id)
     .then(tag => {
         async.forEach(req.body.articles, (articleId, done) => {
+            console.log(articleId)
             tag.addArticle(articleId)
             .then(() => {
                 done()
